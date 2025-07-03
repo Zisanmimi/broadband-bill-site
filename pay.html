@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pay Bill</title>
+</head>
+<body>
+  <h2>Enter Your Bill Details</h2>
+  <form>
+    <input type="text" id="customerId" placeholder="Customer ID" required><br>
+    <input type="number" id="amount" placeholder="Amount (INR)" required><br>
+    <button type="button" onclick="payNow()">Pay Now</button>
+  </form>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    function payNow() {
+      var customerId = document.getElementById("customerId").value;
+      var amount = document.getElementById("amount").value * 100;
+
+      var options = {
+        "key": "rzp_test_your_key_here", // Replace with Razorpay test key
+        "amount": amount,
+        "currency": "INR",
+        "name": "FastNet Broadband",
+        "description": "Broadband Bill Payment",
+        "handler": function (response){
+          alert("Payment successful: " + response.razorpay_payment_id);
+        },
+        "prefill": {
+          "name": "",
+          "email": ""
+        },
+        "theme": {
+          "color": "#3399cc"
+        }
+      };
+      var rzp = new Razorpay(options);
+      rzp.open();
+    }
+  </script>
+</body>
+</html>
