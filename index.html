@@ -1,37 +1,48 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Welcome to Broadband Billing</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: sans-serif;
-      padding: 60px;
-      background: #f0f0f0;
-    }
-    h1 {
-      color: #333;
-    }
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 15px 25px;
-      background-color: #007BFF;
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-      border-radius: 8px;
-    }
-    a:hover {
-      background-color: #0056b3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Broadband Bill Payment</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Welcome to Our Broadband Bill Payment System</h1>
-  <p>Click below to pay your bill using bKash, Nagad, or Rocket.</p>
-  <a href="pay.html">Pay Your Bill</a>
+    <div class="container">
+        <h2>Broadband Bill Payment</h2>
+        <form id="paymentForm">
+            <input type="text" name="name" placeholder="Full Name" required><br>
+            <input type="text" name="phone" placeholder="Phone Number" required><br>
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="number" name="amount" placeholder="Amount" required><br>
+            <select name="method" required>
+                <option value="" disabled selected>Select Payment Method</option>
+                <option value="bKash">bKash</option>
+                <option value="Nagad">Nagad</option>
+                <option value="Rocket">Rocket</option>
+            </select><br>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+
+            fetch("YOUR_GOOGLE_SCRIPT_URL_HERE", {
+                method: "POST",
+                body: data
+            }).then(res => res.text())
+              .then(msg => {
+                document.getElementById('message').innerText = "Submitted successfully!";
+                form.reset();
+              })
+              .catch(err => {
+                document.getElementById('message').innerText = "Error submitting form.";
+              });
+        });
+    </script>
 </body>
 </html>
