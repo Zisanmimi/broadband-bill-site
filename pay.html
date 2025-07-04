@@ -1,42 +1,129 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Pay Bill</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pay Your Broadband Bill</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      background: white;
+      padding: 25px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .info-box {
+      margin-top: 10px;
+      background: #f0f8ff;
+      padding: 10px;
+      border-left: 4px solid #007BFF;
+      display: none;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #28a745;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
+    .thank-you {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h2>Enter Your Bill Details</h2>
-  <form>
-    <input type="text" id="customerId" placeholder="Customer ID" required><br>
-    <input type="number" id="amount" placeholder="Amount (INR)" required><br>
-    <button type="button" onclick="payNow()">Pay Now</button>
+
+<div class="container">
+  <h2>Broadband Bill Payment</h2>
+
+  <form id="paymentForm">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="phone">Phone Number</label>
+    <input type="text" id="phone" name="phone" required />
+
+    <label for="amount">Amount (BDT)</label>
+    <input type="number" id="amount" name="amount" required />
+
+    <label for="method">Payment Method</label>
+    <select id="method" name="method" required onchange="showInfo()">
+      <option value="">-- Select --</option>
+      <option value="bkash">bKash</option>
+      <option value="nagad">Nagad</option>
+      <option value="rocket">Rocket</option>
+    </select>
+
+    <div id="paymentInfo" class="info-box"></div>
+
+    <label for="trxid">Transaction ID</label>
+    <input type="text" id="trxid" name="trxid" required />
+
+    <button type="submit">Submit Payment</button>
   </form>
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script>
-    function payNow() {
-      var customerId = document.getElementById("customerId").value;
-      var amount = document.getElementById("amount").value * 100;
+  <div class="thank-you" id="thankYouMessage">
+    ✅ Thank you! Your payment information has been received.
+  </div>
+</div>
 
-      var options = {
-        "key": "rzp_test_your_key_here", // Replace with Razorpay test key
-        "amount": amount,
-        "currency": "INR",
-        "name": "FastNet Broadband",
-        "description": "Broadband Bill Payment",
-        "handler": function (response){
-          alert("Payment successful: " + response.razorpay_payment_id);
-        },
-        "prefill": {
-          "name": "",
-          "email": ""
-        },
-        "theme": {
-          "color": "#3399cc"
-        }
-      };
-      var rzp = new Razorpay(options);
-      rzp.open();
+<script>
+  function showInfo() {
+    const method = document.getElementById("method").value;
+    const info = document.getElementById("paymentInfo");
+    info.style.display = "block";
+
+    if (method === "bkash") {
+      info.innerHTML = "Send payment to <strong>01XXXXXXXXX</strong> via bKash (Personal).";
+    } else if (method === "nagad") {
+      info.innerHTML = "Send payment to <strong>01YYYYYYYYY</strong> via Nagad (Personal).";
+    } else if (method === "rocket") {
+      info.innerHTML = "Send payment to <strong>01ZZZZZZZZZ</strong> via Rocket (Personal).";
+    } else {
+      info.style.display = "none";
     }
-  </script>
+  }
+
+  document.getElementById("paymentForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    document.getElementById("paymentForm").reset();
+    document.getElementById("paymentInfo").style.display = "none";
+    document.getElementById("thankYouMessage").style.display = "block";
+  });
+</script>
+
 </body>
 </html>
