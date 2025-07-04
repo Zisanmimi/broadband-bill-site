@@ -76,6 +76,9 @@
     <label for="phone">Phone Number</label>
     <input type="text" id="phone" name="phone" required />
 
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required />
+
     <label for="amount">Amount (BDT)</label>
     <input type="number" id="amount" name="amount" required />
 
@@ -89,9 +92,6 @@
 
     <div id="paymentInfo" class="info-box"></div>
 
-    <label for="trxid">Transaction ID</label>
-    <input type="text" id="trxid" name="trxid" required />
-
     <button type="submit">Submit Payment</button>
   </form>
 
@@ -102,28 +102,4 @@
 
 <script>
   function showInfo() {
-    const method = document.getElementById("method").value;
-    const info = document.getElementById("paymentInfo");
-    info.style.display = "block";
-
-    if (method === "bkash") {
-      info.innerHTML = "Send payment to <strong>01XXXXXXXXX</strong> via bKash (Personal).";
-    } else if (method === "nagad") {
-      info.innerHTML = "Send payment to <strong>01YYYYYYYYY</strong> via Nagad (Personal).";
-    } else if (method === "rocket") {
-      info.innerHTML = "Send payment to <strong>01ZZZZZZZZZ</strong> via Rocket (Personal).";
-    } else {
-      info.style.display = "none";
-    }
-  }
-
-  document.getElementById("paymentForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    document.getElementById("paymentForm").reset();
-    document.getElementById("paymentInfo").style.display = "none";
-    document.getElementById("thankYouMessage").style.display = "block";
-  });
-</script>
-
-</body>
-</html>
+    const method = document.getElementBy
